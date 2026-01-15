@@ -1,63 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Blackwall ESP Flasher</title>
-
-   <style>
-    #terminal {
-      background: #000;
-      color: #0f0;
-      font-family: monospace;
-      padding: 10px;
-      height: 300px;
-      overflow-y: auto;
-      white-space: pre-wrap;
-    }
-  </style>
-  
+<meta charset="UTF-8">
+<title>ESP32 Tactical Flasher</title>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <h1>Blackwall ESP32 Flasher</h1>
+  <div class="container">
+    <h1>ESP32 Web Flasher</h1>
 
-  <pre id="terminal"></pre>
-  
-  <button id="flash">Connect & Flash</button>
+    <button id="connect">CONNECT DEVICE</button>
+    <button id="flash" disabled>FLASH FIRMWARE</button>
 
+    <pre id="log"></pre>
+  </div>
 
-<script>
-  // global terminal for bundle.js
-  window.terminal = {
-    write(data) {
-      const el = document.getElementById("terminal");
-      el.textContent += data;
-      el.scrollTop = el.scrollHeight;
-    },
-    writeLine(data) {
-      const el = document.getElementById("terminal");
-      el.textContent += data + "\n";
-      el.scrollTop = el.scrollHeight;
-    },
-    clean() {
-      const el = document.getElementById("terminal");
-      el.textContent = "";
-    }
-  };
-</script>
-
-  
-  <script type="module">
-    import * as esptool from './bundle.js';
-    window.esptool = esptool;   // attach to global so flasher.js can use it
-  </script>
-  <script type="module" src="fjs/flasher.js"></script>
-
+<script type="module" src="flasher.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
