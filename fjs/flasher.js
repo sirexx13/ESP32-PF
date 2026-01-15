@@ -1,4 +1,5 @@
-export { ESPLoader } from "../lib/esploader.js";
+const { ESPLoader } = window;
+
 
 document.getElementById("flash").onclick = async () => {
   const port = await navigator.serial.requestPort();
@@ -33,6 +34,7 @@ document.getElementById("flash").onclick = async () => {
   await loader.writeFlash(files);
   alert("Flash complete");
 };
+
 
 
 
