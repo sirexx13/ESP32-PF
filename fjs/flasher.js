@@ -1,43 +1,68 @@
-const { esptool } = window;
+import {
+  ESPLoader,
+  Transport
+} from "https://unpkg.com/esptool-js@latest/dist/web/index.js";
 
-// flasher.js
-const terminalEl = document.getElementById("terminal");
-const terminal = {
-  write(data) { terminalEl.textContent += data; terminalEl.scrollTop = terminalEl.scrollHeight; },
-  writeLine(data) { terminalEl.textContent += data + "\n"; terminalEl.scrollTop = terminalEl.scrollHeight; },
-  clean() { terminalEl.textContent = ""; }
-};
+const connectBtn = document.getElementById("connect");
+const flashBtn   = document.getElementById("flash");
+const logEl      = document.getElementById("log");
 
-document.getElementById("flash").onclick = async function() {
+let transport;
+let esploader;
+
+function log(msg) {
+  logEl.textContent += msg + "\n";
+  logEl.scrollTop = logEl.scrollHeight;
+}
+
+connectBtn.onclick = async () => {
   try {
-    terminal.clean();
     const port = await navigator.serial.requestPort();
-    await port.open({ baudRate: 921600 });
+    transport = new Transport(port);
 
-    const loader = new window.esptool.ESPLoader(); // NO arguments
-    await loader.main();
+    esploader = new ESPLoader({
+      transport,
+      baudrate: 921600,
+      terminal: { write: log }
+    });
 
-    terminal.writeLine("Connected to ESP");
+    log("[*] Connecting to ESP32...");
+    await esploader.main();
+    log("[+] Connected");
+    log(`[+] Chip: ${esploader.chipName}`);
 
-    const files = [
-      { address: 0x1000, data: await fetch("../Firmware/bootloader.bin").then(r => r.arrayBuffer()) },
-      { address: 0x8000, data: await fetch("../Firmware/partition-table.bin").then(r => r.arrayBuffer()) },
-      { address: 0x10000, data: await fetch("../Firmware/blackwall_firmware.bin").then(r => r.arrayBuffer()) }
-    ];
-
-    await loader.writeFlash(files);
-    terminal.writeLine("Flash complete!");
-  } catch (err) {
-    terminal.writeLine("Flashing failed: " + err);
-    console.error(err);
+    flashBtn.disabled = false;
+  } catch (e) {
+    log("[!] Connection failed");
+    log(e.message);
   }
 };
 
+flashBtn.onclick = async () => {
+  try {
+    log("[*] Starting flash");
 
+    const files = [
+      { address: 0x1000, data: await fetchBin("firmware/bootloader.bin") },
+      { address: 0x8000, data: await fetchBin("firmware/partitions.bin") },
+      { address: 0x10000, data: await fetchBin("firmware/firmware.bin") }
+    ];
 
+    await esploader.writeFlash({
+      fileArray: files,
+      flashSize: "keep",
+      eraseAll: false,
+      compress: true
+    });
 
+    log("[+] Flash complete");
+  } catch (e) {
+    log("[!] Flash failed");
+    log(e.message);
+  }
+};
 
-
-
-
-
+async function fetchBin(path) {
+  const res = await fetch(path);
+  return new Uint8Array(await res.arrayBuffer());
+}
