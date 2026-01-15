@@ -24,6 +24,28 @@
   
   <button id="flash">Connect & Flash</button>
 
+
+<script>
+  // global terminal for bundle.js
+  window.terminal = {
+    write(data) {
+      const el = document.getElementById("terminal");
+      el.textContent += data;
+      el.scrollTop = el.scrollHeight;
+    },
+    writeLine(data) {
+      const el = document.getElementById("terminal");
+      el.textContent += data + "\n";
+      el.scrollTop = el.scrollHeight;
+    },
+    clean() {
+      const el = document.getElementById("terminal");
+      el.textContent = "";
+    }
+  };
+</script>
+
+  
   <script type="module">
     import * as esptool from './bundle.js';
     window.esptool = esptool;   // attach to global so flasher.js can use it
@@ -32,6 +54,7 @@
 
 </body>
 </html>
+
 
 
 
