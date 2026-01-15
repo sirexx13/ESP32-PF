@@ -1,3 +1,6 @@
+const { esptool } = window;
+
+
 document.getElementById("flash").onclick = async () => {
   try {
     // request the serial port
@@ -41,6 +44,7 @@ document.getElementById("flash").onclick = async () => {
     alert("Flashing failed. Check console.");
   }
 };
+
 
 
 
