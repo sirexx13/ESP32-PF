@@ -1,4 +1,4 @@
-import { ESPLoader } from "../bundle.js";
+export { ESPLoader } from "./lib/esploader.js";
 
 document.getElementById("flash").onclick = async () => {
   const port = await navigator.serial.requestPort();
@@ -33,6 +33,7 @@ document.getElementById("flash").onclick = async () => {
   await loader.writeFlash(files);
   alert("Flash complete");
 };
+
 
 
 
