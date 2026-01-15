@@ -1,7 +1,7 @@
 import {
   ESPLoader,
   Transport
-} from "https://app.unpkg.com/esptool-js@0.5.7";
+} from "https://unpkg.com/esptool-js@0.5.7";
 
 const connectBtn = document.getElementById("connect");
 const flashBtn   = document.getElementById("flash");
@@ -66,6 +66,7 @@ async function fetchBin(path) {
   const res = await fetch(path);
   return new Uint8Array(await res.arrayBuffer());
 }
+
 
 
 
