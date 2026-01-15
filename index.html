@@ -24,12 +24,6 @@
   
   <button id="flash">Connect & Flash</button>
 
-    <script type="module">
-  import * as pako from 'https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.esm.mjs';
-
-  console.log("Pako loaded", pako);
-</script>
-
   <script type="module">
     import * as esptool from './bundle.js';
     window.esptool = esptool;   // attach to global so flasher.js can use it
@@ -38,6 +32,7 @@
 
 </body>
 </html>
+
 
 
 
