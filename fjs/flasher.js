@@ -12,11 +12,11 @@ const terminal = {
 document.getElementById("flash").onclick = async function() {
   try {
     terminal.clean();
-    const port = await navigator.serial.requestPort();
-    await port.open({ baudRate: 921600 });
 
-    const loader = new window.esptool.ESPLoader(); // NO arguments
-    await loader.main();
+    // let ESPLoader request the port itself
+    const loader = new window.esptool.ESPLoader(); 
+
+    await loader.main(); // will open the serial port internally
 
     terminal.writeLine("Connected to ESP");
 
@@ -33,5 +33,7 @@ document.getElementById("flash").onclick = async function() {
     console.error(err);
   }
 };
+
+
 
 
