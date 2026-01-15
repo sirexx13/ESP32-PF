@@ -3,9 +3,25 @@
 <head>
   <meta charset="utf-8">
   <title>Blackwall ESP Flasher</title>
+
+   <style>
+    #terminal {
+      background: #000;
+      color: #0f0;
+      font-family: monospace;
+      padding: 10px;
+      height: 300px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+  </style>
+  
 </head>
 <body>
   <h1>Blackwall ESP32 Flasher</h1>
+
+  <pre id="terminal"></pre>
+  
   <button id="flash">Connect & Flash</button>
 
   <script type="module">
@@ -15,5 +31,6 @@
   <script type="module" src="fjs/flasher.js"></script>
 </body>
 </html>
+
 
 
