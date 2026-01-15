@@ -1,36 +1,21 @@
-import { ESPLoader, Transport } from '../lib/index.js';  // point to your lib
+const { esptool } = window;
 
+
+// flasher.js
 const terminalEl = document.getElementById("terminal");
-
 const terminal = {
-  write(data) {
-    terminalEl.textContent += data;
-    terminalEl.scrollTop = terminalEl.scrollHeight;
-  },
-  writeLine(data) {
-    terminalEl.textContent += data + "\n";
-    terminalEl.scrollTop = terminalEl.scrollHeight;
-  },
-  clean() {
-    terminalEl.textContent = "";
-  }
+  write(data) { terminalEl.textContent += data; terminalEl.scrollTop = terminalEl.scrollHeight; },
+  writeLine(data) { terminalEl.textContent += data + "\n"; terminalEl.scrollTop = terminalEl.scrollHeight; },
+  clean() { terminalEl.textContent = ""; }
 };
 
 document.getElementById("flash").onclick = async function() {
   try {
     terminal.clean();
-
     const port = await navigator.serial.requestPort();
     await port.open({ baudRate: 921600 });
 
-    const transport = new Transport(port);
-
-    const loader = new ESPLoader({
-      transport,
-      baudrate: 921600,
-      terminal
-    });
-
+    const loader = new window.esptool.ESPLoader(); // NO arguments
     await loader.main();
 
     terminal.writeLine("Connected to ESP");
@@ -43,9 +28,10 @@ document.getElementById("flash").onclick = async function() {
 
     await loader.writeFlash(files);
     terminal.writeLine("Flash complete!");
-
   } catch (err) {
     terminal.writeLine("Flashing failed: " + err);
     console.error(err);
   }
 };
+
+
