@@ -10,13 +10,15 @@ document.getElementById("flash").onclick = async () => {
     // create transport and loader from the bundle
     const transport = new esptool.Transport(port);
     const loader = new esptool.ESPLoader({
-      transport,
+      transport: new esptool.Transport(port),
       baudrate: 921600,
       terminal: {
         clean() {},
-        writeLine(data) { console.log(data); }
+        write(data) { console.log(data); },        // required by esptool
+        writeLine(data) { console.log(data + "\n"); } // optional
       }
     });
+
 
     await loader.main();
     console.log("Connected to ESP");
@@ -44,6 +46,7 @@ document.getElementById("flash").onclick = async () => {
     alert("Flashing failed. Check console.");
   }
 };
+
 
 
 
