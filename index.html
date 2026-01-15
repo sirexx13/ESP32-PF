@@ -43,6 +43,16 @@ pre {
     <button id="connect">CONNECT DEVICE</button>
     <button id="flash" disabled>FLASH FIRMWARE</button>
 
+
+    <script type="importmap">
+{
+  "imports": {
+    "pako": "https://unpkg.com/pako@2.1.0/dist/pako.esm.mjs"
+  }
+}
+</script>
+
+    
         <script type="module">
       import * as esptool from "https://unpkg.com/esptool-js@0.5.7";
     </script>
@@ -54,6 +64,7 @@ pre {
 <script type="module" src="fjs/flasher.js"></script>
 </body>
 </html>
+
 
 
 
