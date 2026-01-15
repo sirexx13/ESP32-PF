@@ -13,9 +13,15 @@
     <button id="connect">CONNECT DEVICE</button>
     <button id="flash" disabled>FLASH FIRMWARE</button>
 
+        <script type="module">
+      import * as esptool from "https://unpkg.com/esptool-js@latest/dist/web/index.js";
+    </script>
+
+
     <pre id="log"></pre>
   </div>
 
 <script type="module" src="flasher.js"></script>
 </body>
 </html>
+
