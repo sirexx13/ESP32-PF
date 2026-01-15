@@ -1,7 +1,7 @@
 import {
   ESPLoader,
   Transport
-} from "https://unpkg.com/esptool-js@latest/dist/web/index.js";
+} from "https://app.unpkg.com/esptool-js@0.5.7/bundle.js";
 
 const connectBtn = document.getElementById("connect");
 const flashBtn   = document.getElementById("flash");
@@ -43,9 +43,9 @@ flashBtn.onclick = async () => {
     log("[*] Starting flash");
 
     const files = [
-      { address: 0x1000, data: await fetchBin("firmware/bootloader.bin") },
-      { address: 0x8000, data: await fetchBin("firmware/partitions.bin") },
-      { address: 0x10000, data: await fetchBin("firmware/firmware.bin") }
+      { address: 0x1000, data: await fetchBin("../Firmware/bootloader.bin") },
+      { address: 0x8000, data: await fetchBin("../Firmware/partitions.bin") },
+      { address: 0x10000, data: await fetchBin("../Firmware/firmware.bin") }
     ];
 
     await esploader.writeFlash({
@@ -66,3 +66,4 @@ async function fetchBin(path) {
   const res = await fetch(path);
   return new Uint8Array(await res.arrayBuffer());
 }
+
