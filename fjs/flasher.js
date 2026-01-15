@@ -1,7 +1,7 @@
 const { esptool } = window;
 
 
-document.getElementById("flash").onclick = async () => {
+document.getElementById("flash").onclick = async function() {
   try {
     const port = await navigator.serial.requestPort();
     await port.open({ baudRate: 921600 });
@@ -9,13 +9,9 @@ document.getElementById("flash").onclick = async () => {
     const transport = new esptool.Transport(port);
 
     const loader = new esptool.ESPLoader({
-      transport,
+      transport: transport,
       baudrate: 921600,
-      terminal: {
-        write: console.log.bind(console),
-        writeLine: console.log.bind(console),
-        clean: () => {}
-      }
+      terminal: terminal  // must pass the object defined above
     });
 
     await loader.main();
@@ -35,17 +31,4 @@ document.getElementById("flash").onclick = async () => {
     alert("Flashing failed. Check console.");
   }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
 
