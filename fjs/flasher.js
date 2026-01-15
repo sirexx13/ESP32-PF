@@ -44,8 +44,8 @@ flashBtn.onclick = async () => {
 
     const files = [
       { address: 0x1000, data: await fetchBin("../Firmware/bootloader.bin") },
-      { address: 0x8000, data: await fetchBin("../Firmware/partitions.bin") },
-      { address: 0x10000, data: await fetchBin("../Firmware/firmware.bin") }
+      { address: 0x8000, data: await fetchBin("../Firmware/partition-table.bin") },
+      { address: 0x10000, data: await fetchBin("../Firmware/blackwall_firmware.bin") }
     ];
 
     await esploader.writeFlash({
@@ -66,4 +66,5 @@ async function fetchBin(path) {
   const res = await fetch(path);
   return new Uint8Array(await res.arrayBuffer());
 }
+
 
